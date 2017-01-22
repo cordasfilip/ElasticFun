@@ -19,40 +19,32 @@
             <ColumnDefinition Width="120"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <!--<ListBox SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding IndexList}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding IndexName}"></TextBlock>
-                        <ListBox Margin="20,0,0,0" SelectedItem="{Binding DataContext.SelectedItem, ElementName=grid}" ItemsSource="{Binding Types}" VerticalAlignment="Top">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding TypeName}"></TextBlock>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            
+        <Grid Background="#FF293A56">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TreeView ItemsSource="{Binding IndexList}" >
+                <TreeView.Resources>
+                    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
 
-        </ListBox>-->
-        <TreeView ItemsSource="{Binding IndexList}" >
-            <TreeView.Resources>
-                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
-                  
-                </Style>
-            </TreeView.Resources>
+                    </Style>
+                </TreeView.Resources>
 
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Types}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Types}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left">Add Data</Button>
+            </StackPanel>
+        </Grid>
+       
     </Grid>
 
 </Controls:MetroWindow>
