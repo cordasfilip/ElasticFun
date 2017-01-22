@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Type="http://schemas.microsoft.com/packaging/2010/07/manifest" Target="/MahApps.Metro.IconPacks.nuspec" Id="Rfce01b2e40384d53" />
+  <Relationship Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="/package/services/metadata/core-properties/e2f8cd114f664130a7be65442f097947.psmdcp" Id="R114c8a8e4f844c56" />
+</Relationships>
