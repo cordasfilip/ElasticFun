@@ -1,6 +1,7 @@
 ﻿<Controls:MetroWindow x:Name="metroWindow" x:Class="ElasticFun.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:vm ="clr-namespace:ElasticFun.ViewModels"
@@ -8,6 +9,12 @@
         Background="{Binding Mode=OneWay, Source={StaticResource AccentColorBrush}}"
         Title="ElasticFun" Height="350" Width="525">
     <Grid x:Name="grid" >
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding Init}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
         <Grid.Resources>
             <Style TargetType="{x:Type TreeViewItem}">
                 <Setter Property="IsExpanded" Value="True"/>
@@ -41,10 +48,15 @@
                 </TreeView.ItemTemplate>
             </TreeView>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left">Add Data</Button>
+                <Button Command="{Binding AddData}" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left">Add Data</Button>
             </StackPanel>
         </Grid>
-       
+        <Grid Grid.ColumnSpan="2"  Visibility="{Binding IsLoading}" Background="#4C000000">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="{Binding Progress}" HorizontalAlignment="Center" FontSize="20"></TextBlock>
+                <Controls:ProgressRing Foreground="White"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 
 </Controls:MetroWindow>
