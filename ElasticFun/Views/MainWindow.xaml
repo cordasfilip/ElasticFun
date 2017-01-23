@@ -11,7 +11,7 @@
     <Grid x:Name="grid" >
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
-                <i:InvokeCommandAction Command="{Binding Init}"/>
+                <i:InvokeCommandAction Command="{Binding Init}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
 
@@ -32,10 +32,10 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TreeView ItemsSource="{Binding IndexList}" >
+            <TreeView x:Name="treeView" ItemsSource="{Binding IndexList}" >
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectionChanged}"/>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectionChanged}" CommandParameter="{ Binding SelectedItem, ElementName= treeView }"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <TreeView.Resources>

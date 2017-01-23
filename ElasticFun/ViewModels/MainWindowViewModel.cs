@@ -45,7 +45,7 @@ namespace ElasticFun.ViewModels
 
         public DelegateCommand AddData { get; set; }
 
-        //public DelegateCommand< SelectionChanged { get; set; }
+        public DelegateCommand<Index> SelectionChanged { get; set; }
 
         public MainWindowViewModel()
         {
@@ -54,6 +54,8 @@ namespace ElasticFun.ViewModels
             Init = DelegateCommand.FromAsyncHandler(OnInit);
 
             AddData = DelegateCommand.FromAsyncHandler(OnAddData);
+
+            SelectionChanged = DelegateCommand<Index>.FromAsyncHandler(OnSelectionChanged);
         }
         public async Task OnAddData()
         {
@@ -63,6 +65,13 @@ namespace ElasticFun.ViewModels
         }
 
         public async Task OnInit()
+        {
+            StartLoad();
+            IndexList = new ObservableCollection<Index>(await db.GetAllIndex());
+            EndLoad();
+        }
+
+        public async Task OnSelectionChanged(Index index)
         {
             StartLoad();
             IndexList = new ObservableCollection<Index>(await db.GetAllIndex());
