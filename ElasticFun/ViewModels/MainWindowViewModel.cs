@@ -45,6 +45,8 @@ namespace ElasticFun.ViewModels
 
         public DelegateCommand AddData { get; set; }
 
+        //public DelegateCommand< SelectionChanged { get; set; }
+
         public MainWindowViewModel()
         {
             db = new ElasticRepo();

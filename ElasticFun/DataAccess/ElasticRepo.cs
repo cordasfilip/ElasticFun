@@ -56,20 +56,19 @@ namespace ElasticFun.DataAccess
 
         public async Task<IEnumerable<Index>> GetAllIndex()
         {
-            var mapping = await client.CatIndicesAsync();
+            var mappings = await client.GetMappingAsync(new GetMappingRequest());
 
-            return Enumerable.Empty<Index>();
+            return mappings.Mappings.Select(map => new Index { Name = map.Key, Types = map.Value.Select(t => new Index() { IndexName = map.Key, Name = t.Key}) }).ToArray();
         }
 
 
         public IEnumerable<Company> LoadCompany(string location)
         {
-            var csv = new CsvReader(new StreamReader(File.OpenRead(location)),new CsvHelper.Configuration.CsvConfiguration
+            var csv = new CsvReader(new StreamReader(File.OpenRead(location)), new CsvHelper.Configuration.CsvConfiguration
             {
                 IgnoreQuotes = false,
                 QuoteAllFields = true,
-                QuoteNoFields= false,
-                
+                QuoteNoFields= false
             });
             csv.Configuration.QuoteAllFields = true;
             csv.Configuration.IgnoreQuotes = false;

@@ -6,7 +6,7 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:vm ="clr-namespace:ElasticFun.ViewModels"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Background="{Binding Mode=OneWay, Source={StaticResource AccentColorBrush}}"
+        Background="#FFE6E7E8"
         Title="ElasticFun" Height="350" Width="525">
     <Grid x:Name="grid" >
         <i:Interaction.Triggers>
@@ -16,22 +16,28 @@
         </i:Interaction.Triggers>
 
         <Grid.Resources>
-            <Style TargetType="{x:Type TreeViewItem}">
+            <Style TargetType="{x:Type TreeViewItem}"  BasedOn="{StaticResource MetroTreeViewItem}">
                 <Setter Property="IsExpanded" Value="True"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             </Style>
 
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Background="#FF293A56">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <TreeView ItemsSource="{Binding IndexList}" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectionChanged}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <TreeView.Resources>
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
 
@@ -40,7 +46,9 @@
 
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Types}">
+                        
                         <StackPanel Orientation="Horizontal">
+                            
                             <TextBlock Text="{Binding Name}" />
                             <TextBlock Text="{Binding Name}" />
                         </StackPanel>
@@ -48,13 +56,16 @@
                 </TreeView.ItemTemplate>
             </TreeView>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Command="{Binding AddData}" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left">Add Data</Button>
+                <Button Command="{Binding AddData}" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{DynamicResource SquareButtonStyle}">Add Data</Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.ColumnSpan="2"  Visibility="{Binding IsLoading}" Background="#4C000000">
+        <GridSplitter Grid.Column ="1"  Width="5"
+                HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+        <Grid Grid.Column="2"></Grid>
+        <Grid Grid.ColumnSpan="3"  Visibility="{Binding IsLoading}">
             <StackPanel VerticalAlignment="Center">
                 <TextBlock Text="{Binding Progress}" HorizontalAlignment="Center" FontSize="20"></TextBlock>
-                <Controls:ProgressRing Foreground="White"/>
+                <Controls:ProgressRing Foreground="{DynamicResource AccentColorBrush}"></Controls:ProgressRing>
             </StackPanel>
         </Grid>
     </Grid>
