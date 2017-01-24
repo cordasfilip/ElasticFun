@@ -7,7 +7,9 @@
         xmlns:vm ="clr-namespace:ElasticFun.ViewModels"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Background="White"
-        Title="ElasticFun" Height="350" Width="525">
+        BorderThickness="2"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        Title="ElasticFun" WindowState="Maximized">
     <Grid x:Name="grid" >
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
@@ -37,7 +39,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid>
+        <Grid Background="#FF0091FF">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
@@ -46,7 +48,8 @@
               
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectionChanged}" CommandParameter="{ Binding SelectedItem, ElementName= treeView }"/>
+                        <i:InvokeCommandAction Command="{Binding SelectionChanged}" 
+                                               CommandParameter="{ Binding SelectedItem, ElementName= treeView }"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <TreeView.Resources>
@@ -56,23 +59,6 @@
                         <Setter Property="Background" Value="#FFF4F4F4"></Setter>
                         <Setter Property="Foreground" Value="#FF7C7C7C"></Setter>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        <Style.Triggers>
-                            <!--<Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Foreground" Value="#FFFFFFFF"></Setter>
-
-                                <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"></Setter>
-                            </Trigger>
-                            <Trigger Property="IsSelectionActive" Value="True">
-                                <Setter Property="Foreground" Value="White"></Setter>
-                                <Setter Property="Background" Value="#FFF1F2F7"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="#FFFFFFFF"></Setter>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="False">
-                                <Setter Property="Foreground" Value="#FF787878"></Setter>
-                            </Trigger>-->
-                        </Style.Triggers>
                     </Style>
                 </TreeView.Resources>
 
@@ -95,36 +81,38 @@
             </StackPanel>
         </Grid>
         <GridSplitter Grid.Column ="1"  Width="5"
-                HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBox 
+                Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="4"
                           Controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonCmd, Mode=OneWay}" 
                           Controls:TextBoxHelper.ClearTextButton="True" 
-                          Controls:TextBoxHelper.UseFloatingWatermark="True" 
+                          Controls:TextBoxHelper.UseFloatingWatermark="True"
                           Controls:TextBoxHelper.Watermark="Search...">
 
                 <TextBox.InputBindings>
 
                     <KeyBinding Key="Return" 
-                                     Command="{Binding TextBoxButtonCmd, Mode=OneWay}" 
-                                     CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Path=Text, Mode=OneWay}" />
+                                     Command="{Binding Search, Mode=OneWay}" 
+                                     CommandParameter="{ Binding SelectedItem, ElementName= treeView }" />
                 </TextBox.InputBindings>
                 <TextBox.Style>
                     <Style BasedOn="{StaticResource SearchMetroTextBox}" TargetType="{x:Type TextBox}">
-                        <Style.Triggers>
+                        <!--<Style.Triggers>
                             <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
                                 <Setter Property="Controls:TextBoxHelper.ButtonContent" Value="r" />
                                 <Setter Property="Controls:TextBoxHelper.ButtonContentTemplate" Value="{x:Null}" />
                             </Trigger>
-                        </Style.Triggers>
+                        </Style.Triggers>-->
                     </Style>
                 </TextBox.Style>
             </TextBox>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Data}" RowHeight="40"></DataGrid>
         </Grid>
         <Grid Grid.ColumnSpan="3"  Visibility="{Binding IsLoading}">
             <StackPanel VerticalAlignment="Center">

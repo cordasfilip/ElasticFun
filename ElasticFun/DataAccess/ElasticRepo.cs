@@ -20,7 +20,7 @@ namespace ElasticFun.DataAccess
 
         public ElasticRepo()
         {
-            var uri = "http://localhost:9200";
+            var uri = "http://localhost.fiddler:9200";
             client = new ElasticClient(new Uri(uri));
         }
 
@@ -98,7 +98,34 @@ namespace ElasticFun.DataAccess
                     };
                 }
             }
+        }
 
+        public async Task<DataResult> SearchAsync(string index, string type, string searchText, int skip = 0, int take = 100)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                var items = await client.SearchAsync<dynamic>(s => s.Index(index).Type(type).From(skip).Size(take));
+
+                return new DataResult { Total = items.Total, Items = items.Hits.Select(item => item.Source).ToArray() };
+            }
+            else
+            {
+                var items = await client.SearchAsync<dynamic>(s => s.
+                    Index(index).
+                    Type(type).
+                    From(skip).
+                    Size(take).
+                    Query(q => q.QueryString(qs => qs.Query(searchText))));
+
+                return new DataResult { Total = items.Total, Items = items.Hits.Select(item => item.Source).ToArray() };
+            }
+        }
+
+        public class DataResult
+        {
+            public long Total { get; set; }
+
+            public IEnumerable<dynamic> Items { get; set; }
         }
     }
 }

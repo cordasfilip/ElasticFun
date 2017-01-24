@@ -41,11 +41,34 @@ namespace ElasticFun.ViewModels
             set { SetProperty(ref isLoading, value); }
         }
 
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set { SetProperty(ref searchText, value); }
+        }
+
+        private long total;
+        public long Total
+        {
+            get { return total; }
+            set { SetProperty(ref total, value); }
+        }
+
+        private ObservableCollection<dynamic> data;
+        public ObservableCollection<dynamic> Data
+        {
+            get { return data; }
+            set { SetProperty(ref data, value); }
+        }
+
         public DelegateCommand Init { get; set; }
 
         public DelegateCommand AddData { get; set; }
 
         public DelegateCommand<Index> SelectionChanged { get; set; }
+
+        public DelegateCommand<Index> Search { get; set; }
 
         public MainWindowViewModel()
         {
@@ -55,12 +78,27 @@ namespace ElasticFun.ViewModels
 
             AddData = DelegateCommand.FromAsyncHandler(OnAddData);
 
-            SelectionChanged = DelegateCommand<Index>.FromAsyncHandler(OnSelectionChanged);
+            Search = DelegateCommand<Index>.FromAsyncHandler(OnSearch);
+
+            SelectionChanged = DelegateCommand<Index>.FromAsyncHandler(OnSearch);
+        }
+
+        private async Task OnSearch(Index index = null)
+        {
+            StartLoad();
+            index = index ?? new Index { Name="", IndexName = "_all" };
+            var indexName = string.IsNullOrEmpty(index.IndexName) ? index.Name : index.IndexName;
+            var typeName = string.IsNullOrEmpty(index.IndexName) ? "" : index.Name;
+            var data = await db.SearchAsync(indexName, typeName,SearchText);
+            Total = data.Total;
+            Data = new ObservableCollection<dynamic>(data.Items);
+            EndLoad();
         }
         public async Task OnAddData()
         {
             StartLoad();
             await db.AddDataAsync("company", new Progress<string>((p) => Progress = p));
+
             EndLoad();
         }
 
@@ -68,13 +106,7 @@ namespace ElasticFun.ViewModels
         {
             StartLoad();
             IndexList = new ObservableCollection<Index>(await db.GetAllIndex());
-            EndLoad();
-        }
-
-        public async Task OnSelectionChanged(Index index)
-        {
-            StartLoad();
-            //IndexList = new ObservableCollection<Index>(await db.GetAllIndex());
+            await OnSearch();
             EndLoad();
         }
 
