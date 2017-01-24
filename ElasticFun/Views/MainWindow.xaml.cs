@@ -10,6 +10,7 @@ namespace ElasticFun.Views
     {
         public MainWindow()
         {
+            MahApps.Metro.Controls.t
             InitializeComponent();
         }
     }

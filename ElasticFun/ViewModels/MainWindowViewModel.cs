@@ -74,7 +74,7 @@ namespace ElasticFun.ViewModels
         public async Task OnSelectionChanged(Index index)
         {
             StartLoad();
-            IndexList = new ObservableCollection<Index>(await db.GetAllIndex());
+            //IndexList = new ObservableCollection<Index>(await db.GetAllIndex());
             EndLoad();
         }
 

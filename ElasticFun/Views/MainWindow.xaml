@@ -6,7 +6,7 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:vm ="clr-namespace:ElasticFun.ViewModels"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Background="#FFE6E7E8"
+        Background="White"
         Title="ElasticFun" Height="350" Width="525">
     <Grid x:Name="grid" >
         <i:Interaction.Triggers>
@@ -19,6 +19,16 @@
             <Style TargetType="{x:Type TreeViewItem}"  BasedOn="{StaticResource MetroTreeViewItem}">
                 <Setter Property="IsExpanded" Value="True"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="BorderBrush" Value="#FFB1B6C3"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="White"></Setter>
+                        <Setter Property="Background" Value="#FFF1F2F7"/>
+                    </Trigger>
+
+                </Style.Triggers>
             </Style>
 
         </Grid.Resources>
@@ -32,7 +42,8 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TreeView x:Name="treeView" ItemsSource="{Binding IndexList}" >
+            <TreeView x:Name="treeView" ItemsSource="{Binding IndexList}" Background="#FFF4F4F4" >
+              
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectedItemChanged">
                         <i:InvokeCommandAction Command="{Binding SelectionChanged}" CommandParameter="{ Binding SelectedItem, ElementName= treeView }"/>
@@ -40,7 +51,28 @@
                 </i:Interaction.Triggers>
                 <TreeView.Resources>
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
+                        <Setter Property="IsExpanded" Value="True"/>
+                        <Setter Property="FontSize" Value="14"></Setter>
+                        <Setter Property="Background" Value="#FFF4F4F4"></Setter>
+                        <Setter Property="Foreground" Value="#FF7C7C7C"></Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Style.Triggers>
+                            <!--<Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="#FFFFFFFF"></Setter>
 
+                                <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsSelectionActive" Value="True">
+                                <Setter Property="Foreground" Value="White"></Setter>
+                                <Setter Property="Background" Value="#FFF1F2F7"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FFFFFFFF"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Foreground" Value="#FF787878"></Setter>
+                            </Trigger>-->
+                        </Style.Triggers>
                     </Style>
                 </TreeView.Resources>
 
@@ -55,13 +87,45 @@
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Command="{Binding AddData}" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{DynamicResource SquareButtonStyle}">Add Data</Button>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#FFEAEAEA">
+                <Button Command="{Binding AddData}" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{DynamicResource SquareButtonStyle}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FF666666">
+                    <Path Height="20"
+                    Data="M2.82196,33.142 C3.65092,33.142 4.39089,33.4994 4.9109,34.0555 C7.78681,35.41 14.1936,37.9488 21.6585,37.8822 C21.7825,37.8822 21.9065,37.8795 22.0335,37.8756 L22.7575,37.8795 C22.8834,37.8822 23.0095,37.8822 23.1334,37.8851 C30.5933,37.9515 37.0012,35.41 39.8821,34.058 C40.3971,33.5021 41.135,33.142 41.97,33.142 C43.531,33.142 44.793,34.3699 44.793,35.8833 C44.793,37.1528 43.902,38.2103 42.694,38.5234 C40.4981,39.793 32.7502,43.8586 23.4855,43.8065 L21.3055,43.8039 C12.0428,43.8557 4.29189,39.793 2.09596,38.5209 C0.88798,38.2103 0,37.1528 0,35.8808 C0,34.3699 1.25998,33.142 2.82196,33.142 z M2.82198,20.683 C3.65094,20.683 4.39091,21.0418 4.91092,21.599 C7.78683,22.951 14.1937,25.491 21.6585,25.4217 C21.7825,25.4217 21.9065,25.419 22.0335,25.419 L22.7575,25.419 C22.8835,25.4217 23.0095,25.4217 23.1335,25.4217 C30.5933,25.491 37.0012,22.951 39.8821,21.599 C40.3971,21.0418 41.1351,20.6856 41.9701,20.6856 C43.531,20.6856 44.793,21.9135 44.793,23.4242 C44.793,24.6963 43.902,25.7523 42.694,26.0642 C40.4981,27.3363 32.7502,31.3988 23.4855,31.3455 L21.3055,31.3428 C12.0428,31.3963 4.29191,27.3338 2.09598,26.0616 C0.888002,25.751 2.2E-05,24.6963 2.2E-05,23.4242 C2.2E-05,21.9096 1.26,20.683 2.82198,20.683 z M22.688,0 C34.64,0 44.331,4.25456 44.331,9.5027 C44.331,14.7535 34.64,19.008 22.688,19.008 C10.736,19.008 1.04801,14.7535 1.04801,9.5027 C1.04801,4.25456 10.736,0 22.688,0 z" Fill="#FF666666" Stretch="Uniform" UseLayoutRounding="False"/>
+                </Button>
             </StackPanel>
         </Grid>
         <GridSplitter Grid.Column ="1"  Width="5"
                 HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
-        <Grid Grid.Column="2"></Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBox 
+                    Margin="4"
+                          Controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonCmd, Mode=OneWay}" 
+                          Controls:TextBoxHelper.ClearTextButton="True" 
+                          Controls:TextBoxHelper.UseFloatingWatermark="True" 
+                          Controls:TextBoxHelper.Watermark="Search...">
+
+                <TextBox.InputBindings>
+
+                    <KeyBinding Key="Return" 
+                                     Command="{Binding TextBoxButtonCmd, Mode=OneWay}" 
+                                     CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Path=Text, Mode=OneWay}" />
+                </TextBox.InputBindings>
+                <TextBox.Style>
+                    <Style BasedOn="{StaticResource SearchMetroTextBox}" TargetType="{x:Type TextBox}">
+                        <Style.Triggers>
+                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                <Setter Property="Controls:TextBoxHelper.ButtonContent" Value="r" />
+                                <Setter Property="Controls:TextBoxHelper.ButtonContentTemplate" Value="{x:Null}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </Grid>
         <Grid Grid.ColumnSpan="3"  Visibility="{Binding IsLoading}">
             <StackPanel VerticalAlignment="Center">
                 <TextBlock Text="{Binding Progress}" HorizontalAlignment="Center" FontSize="20"></TextBlock>
