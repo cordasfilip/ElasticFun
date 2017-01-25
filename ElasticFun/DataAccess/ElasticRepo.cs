@@ -26,32 +26,54 @@ namespace ElasticFun.DataAccess
 
         public async Task AddDataAsync(string indexName,IProgress<string> progress)
         {
-            var path = @"Data/companylist.csv";
+            //var path = @"Data/companylist.csv";
+            var destination = @"Data/companyFulllist.csv";
 
-            var companies = LoadCompany(path);
+            var companies = LoadFullCompany(destination);
 
             await client.DeleteIndexAsync(indexName);
 
-            var items = companies.Take(10).ToArray();
+            var items = companies.ToArray();
             for (double i = 0; i < items.Length; i++)
             {
                 var company = items[(int)i];
                 var p = (i / items.Length) * 100;
-                progress.Report(p + "%");
-                HtmlDocument doc = new HtmlDocument();
-                var responce = await WebRequest.Create(company.SummaryQuote).GetResponseAsync();
-
-                doc.Load(responce.GetResponseStream());
-
-                var data = doc.DocumentNode.QuerySelectorAll(@"#left-column-div div p");
-                if (data.Count > 1)
-                {
-                    company.Text = data[1].InnerText;
-                }
+                progress.Report(Math.Round(p,2) + "%");
 
                 await client.IndexAsync(company, id => id.Index(indexName));
             }
             progress.Report(null);
+        }
+
+        public async Task CreateListCSVAsync(string fileFrom, string fileTo, IProgress<string> progress)
+        {
+            var path = fileFrom;
+
+            var companies = LoadCompany(path);
+            using (CsvWriter csv = new CsvWriter(new StreamWriter(File.Open(fileTo, FileMode.OpenOrCreate))))
+            {
+                csv.WriteHeader<Company>();
+                var items = companies.ToArray();
+                for (double i = 0; i < items.Length; i++)
+                {
+                    var company = items[(int)i];
+                    var p = (i / items.Length) * 100;
+                    progress.Report(p + "%");
+                    HtmlDocument doc = new HtmlDocument();
+                    var responce = await WebRequest.Create(company.SummaryQuote).GetResponseAsync();
+
+                    doc.Load(responce.GetResponseStream());
+
+                    var data = doc.DocumentNode.QuerySelectorAll(@"#left-column-div div p");
+                    if (data.Count > 1)
+                    {
+                        company.Text = data[1].InnerText;
+                    }
+
+                    csv.WriteRecord(company);
+                }
+                progress.Report(null);
+            }
         }
 
         public async Task<IEnumerable<Index>> GetAllIndex()
@@ -84,7 +106,7 @@ namespace ElasticFun.DataAccess
 
                     double marketCap;
                     Double.TryParse(csv.GetField<string>("MarketCap"), out marketCap);
-
+                    
                     yield return new Company
                     {
                         Symbol = csv.GetField<string>("Symbol"),
@@ -100,6 +122,16 @@ namespace ElasticFun.DataAccess
             }
         }
 
+        public IEnumerable<Company> LoadFullCompany(string location)
+        {
+            var csv = new CsvReader(new StreamReader(File.OpenRead(location)));
+
+            while (csv.Read())
+            {
+                yield return csv.GetRecord<Company>();
+            }
+        }
+
         public async Task<DataResult> SearchAsync(string index, string type, string searchText, int skip = 0, int take = 100)
         {
             if (string.IsNullOrEmpty(searchText))
@@ -110,6 +142,7 @@ namespace ElasticFun.DataAccess
             }
             else
             {
+                
                 var items = await client.SearchAsync<dynamic>(s => s.
                     Index(index).
                     Type(type).

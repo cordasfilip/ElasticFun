@@ -1,11 +1,17 @@
 ﻿using ElasticFun.DataAccess;
 using ElasticFun.Models;
+using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace ElasticFun.ViewModels
 {
@@ -59,7 +65,37 @@ namespace ElasticFun.ViewModels
         public ObservableCollection<dynamic> Data
         {
             get { return data; }
-            set { SetProperty(ref data, value); }
+            set
+            {
+                SetProperty(ref data, value);
+                base.OnPropertyChanged("Items");
+            }
+        }
+
+        private ObservableCollection<Q> queries;
+        public ObservableCollection<Q> Queries
+        {
+            get { return queries; }
+            set
+            {
+                SetProperty(ref queries, value);
+            }
+        }
+
+        public IEnumerable<IEnumerable<Tuple<string, string>>> Items
+        {
+            get
+            {
+                if (Data!=null)
+                {
+                    var items = Data.Select(d => 
+                    ((JObject)d).Properties().Select(
+                        p => 
+                        Tuple.Create(p.Name,p.Value.ToObject<string>())).ToArray()).ToArray();
+                    return items.Take(10);
+                }
+                return Enumerable.Empty<IEnumerable<Tuple<string, string>>>();
+            }
         }
 
         public DelegateCommand Init { get; set; }
@@ -70,11 +106,15 @@ namespace ElasticFun.ViewModels
 
         public DelegateCommand<Index> Search { get; set; }
 
+        public DelegateCommand MonitorQuery { get;}
+
         public MainWindowViewModel()
         {
             db = new ElasticRepo();
 
             Init = DelegateCommand.FromAsyncHandler(OnInit);
+
+            MonitorQuery =new DelegateCommand(OnMonitorQuery);
 
             AddData = DelegateCommand.FromAsyncHandler(OnAddData);
 
@@ -110,6 +150,47 @@ namespace ElasticFun.ViewModels
             EndLoad();
         }
 
+        public void OnMonitorQuery()
+        {
+            var dir = "Query";
+
+            if (!System.IO.Directory.Exists(dir))
+            {
+                System.IO.Directory.CreateDirectory(dir);
+            }
+
+            var items = System.IO.Directory.GetFiles(dir).Select(p => new FileInfo(p)).Select(fi=>new Q{ Name = Path.GetFileNameWithoutExtension(fi.Name), Path= fi.FullName });
+
+            Queries = new ObservableCollection<Q>(items);
+
+            FileSystemWatcher watcher = new FileSystemWatcher(dir);
+            watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite
+         | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            // Only watch text files.
+            watcher.Filter = "*.json";
+
+
+            watcher.Created += (object sender, FileSystemEventArgs e) =>
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var path = new FileInfo(e.FullPath).FullName;
+                    Queries.Add(new Q { Name = Path.GetFileNameWithoutExtension(e.Name), Path = path });
+                });
+            };
+
+            watcher.Deleted += (object sender, FileSystemEventArgs e) =>
+            {
+                App.Current.Dispatcher.Invoke(() => 
+                {
+                    var path = new FileInfo(e.FullPath).FullName;
+                    Queries.Remove(Queries.FirstOrDefault(q=>q.Path == path));
+                });
+            };
+
+            watcher.EnableRaisingEvents = true;
+        }
+
         private void StartLoad()
         {
             IsLoading = Visibility.Visible;
@@ -118,6 +199,12 @@ namespace ElasticFun.ViewModels
         private void EndLoad()
         {
             IsLoading = Visibility.Collapsed;
+        }
+
+        public class Q
+        {
+            public string Name { get; set; }
+            public string Path { get; set; }
         }
     }
 }
