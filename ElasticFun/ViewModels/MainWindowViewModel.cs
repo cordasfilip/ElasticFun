@@ -82,19 +82,56 @@ namespace ElasticFun.ViewModels
             }
         }
 
-        public IEnumerable<IEnumerable<Tuple<string, string>>> Items
+        private JObject selectedRow;
+        public JObject SelectedRow
+        {
+            get { return selectedRow; }
+            set
+            {
+                SetProperty(ref selectedRow, value);
+                OnPropertyChanged("SelectedRowMap");
+                OnPropertyChanged("SelectedHighLight");
+            }
+        }
+
+        public IEnumerable<Tuple<string, string>> SelectedRowMap
         {
             get
             {
-                if (Data!=null)
+                if (SelectedRow == null)
                 {
-                    var items = Data.Select(d => 
-                    ((JObject)d).Properties().Select(
-                        p => 
-                        Tuple.Create(p.Name,p.Value.ToObject<string>())).ToArray()).ToArray();
-                    return items.Take(10);
+                    return null;
                 }
-                return Enumerable.Empty<IEnumerable<Tuple<string, string>>>();
+                return SelectedRow.Properties().Where(p=>
+                p.Value.Type != JTokenType.Object && p.Value.Type != JTokenType.Array && p.Name != "highlight")
+                .Select( p => Tuple.Create(p.Name,p.Value.ToObject<string>())).ToArray();
+            }
+        }
+
+        public string SelectedHighLight
+        {
+            get
+            {
+                if (SelectedRow == null)
+                {
+                    return null;
+                }
+
+                var data = SelectedRow.Value<string>("highlight");
+                return data;
+            }
+            set { }
+        }
+
+
+        private Q query;
+        public Q Query
+        {
+            get { return query; }
+            set
+            {
+                SetProperty(ref query, value);
+                OnSearch();
             }
         }
 
@@ -129,7 +166,14 @@ namespace ElasticFun.ViewModels
             index = index ?? new Index { Name="", IndexName = "_all" };
             var indexName = string.IsNullOrEmpty(index.IndexName) ? index.Name : index.IndexName;
             var typeName = string.IsNullOrEmpty(index.IndexName) ? "" : index.Name;
-            var data = await db.SearchAsync(indexName, typeName,SearchText);
+
+            string query = null;
+            if (Query != null)
+            {
+                query = File.ReadAllText(Query.Path);
+            }
+
+            var data = await db.SearchAsync(indexName, typeName,SearchText,query);
             Total = data.Total;
             Data = new ObservableCollection<dynamic>(data.Items);
             EndLoad();
@@ -177,6 +221,18 @@ namespace ElasticFun.ViewModels
                     var path = new FileInfo(e.FullPath).FullName;
                     Queries.Add(new Q { Name = Path.GetFileNameWithoutExtension(e.Name), Path = path });
                 });
+            };
+
+            watcher.Changed += (object sender, FileSystemEventArgs e) =>
+            {
+                var path = new FileInfo(e.FullPath).FullName;
+                if (Query != null && Query.Path == path)
+                {
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        OnSearch();
+                    });
+                }
             };
 
             watcher.Deleted += (object sender, FileSystemEventArgs e) =>

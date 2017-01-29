@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:vm ="clr-namespace:ElasticFun.ViewModels"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
@@ -33,7 +34,6 @@
                         <Setter Property="Foreground" Value="White"></Setter>
                         <Setter Property="Background" Value="#FFF1F2F7"/>
                     </Trigger>
-
                 </Style.Triggers>
             </Style>
 
@@ -78,7 +78,7 @@
                     </TreeView.ItemTemplate>
                 </TreeView>
                 <TextBlock FontSize="20">Query</TextBlock>
-                <ListBox ItemsSource="{Binding Queries}" SelectedItem="">
+                <ListBox ItemsSource="{Binding Queries}" SelectedItem="{Binding Query}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"></TextBlock>
@@ -102,6 +102,7 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBox 
@@ -129,29 +130,47 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TabControl  Grid.Row="1">
-                <TabItem Header="List">
-                    <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding Items}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ListView ItemsSource="{Binding}" Margin="10" BorderBrush="{DynamicResource AccentColorBrush}">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Item1}" />
-                                                <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Item2}" />
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </TabItem>
-                <TabItem Header="Grid">
-                    <DataGrid ItemsSource="{Binding Data}" RowHeight="40"></DataGrid>
-                </TabItem>
-            </TabControl>
+            
+            <DataGrid  Grid.Row="1" ItemsSource="{Binding Data}" SelectedItem="{Binding SelectedRow}" RowHeight="40"></DataGrid>
+
+            <ScrollViewer  Grid.Row="2">
+                <StackPanel>
+                    <toolkit:RichTextBox IsReadOnly="True" Text="{Binding SelectedHighLight, UpdateSourceTrigger=PropertyChanged }">
+                        <toolkit:RichTextBox.TextFormatter>
+                            <toolkit:XamlFormatter />
+                        </toolkit:RichTextBox.TextFormatter>
+
+                    </toolkit:RichTextBox>
+                    <ListView ItemsSource="{Binding SelectedRowMap}" Margin="10" BorderBrush="{DynamicResource AccentColorBrush}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                        <Border
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         Background="{TemplateBinding Background}">
+                                            <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Item1}" />
+                            <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Item2}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                  
+                    
+                    
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
         <Grid Grid.ColumnSpan="3"  Visibility="{Binding IsLoading}" Background="#19000000" >
             <StackPanel VerticalAlignment="Center">

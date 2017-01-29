@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using ElasticFun.Models;
+using Elasticsearch.Net;
 using HtmlAgilityPack;
 using Microsoft.Practices.ObjectBuilder2;
 using Nest;
@@ -132,25 +133,84 @@ namespace ElasticFun.DataAccess
             }
         }
 
-        public async Task<DataResult> SearchAsync(string index, string type, string searchText, int skip = 0, int take = 100)
+        public async Task<DataResult> SearchAsync(string index, string type, string searchText,string query, int skip = 0, int take = 100)
         {
-            if (string.IsNullOrEmpty(searchText))
+            try
             {
-                var items = await client.SearchAsync<dynamic>(s => s.Index(index).Type(type).From(skip).Size(take));
+                if (string.IsNullOrEmpty(query) && string.IsNullOrEmpty(searchText))
+                {
+                    var items = await client.SearchAsync<dynamic>(s => s.Index(index).Type(type).From(skip).Size(take));
 
-                return new DataResult { Total = items.Total, Items = items.Hits.Select(item => item.Source).ToArray() };
+                    return new DataResult { Total = items.Total, Items = items.Hits.Select(item => item.Source).ToArray() };
+                }
+                else
+                {
+
+                    ISearchResponse<JObject> items;
+
+                    if (string.IsNullOrEmpty(query))
+                    {
+                        items = await client.SearchAsync<JObject>(s => s.
+                                   Index(index).
+                                   Type(type).
+                                   From(skip).
+                                   Size(take).
+                                   Query(q => q.QueryString(qs => qs.Query(searchText))));
+                    }
+                    else
+                    {
+                        ElasticsearchResponse<SearchResponse<JObject>> data;
+                        if (index == "_all")
+                        {
+                            data = await client.LowLevel.SearchAsync<SearchResponse<JObject>>(query);
+                        }
+                        else
+                        {
+                            data = String.IsNullOrEmpty(type) ?
+                           await client.LowLevel.SearchAsync<SearchResponse<JObject>>(index, query) :
+                           await client.LowLevel.SearchAsync<SearchResponse<JObject>>(index, type, query);
+                        }
+
+                        var response = data.Body;
+                        items = response;
+                    }
+
+                    return new DataResult
+                    {
+                        Total = items.Total,
+                        Items = items.Hits.Select(
+                        item =>
+                        {
+                            if (item.Highlights.Count > 0)
+                            {
+                                var data = from h in item.Highlights
+                                           from fh in h.Value.Highlights
+                                           select fh;
+                                StringBuilder sb = new StringBuilder();
+                                sb.AppendLine(@"<Section xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" >");
+                                foreach (var p in data)
+                                {
+                                    sb.AppendLine("<Paragraph>");
+                                    sb.AppendLine(p);
+                                    sb.AppendLine("</Paragraph>");
+                                }
+                                sb.AppendLine("</Section>");
+                                item.Source.Add("highlight", sb.ToString());
+                            }
+
+                            return item.Source;
+                        }
+                        ).ToArray()
+                    };
+                }
             }
-            else
+            catch (Exception e)
             {
-                
-                var items = await client.SearchAsync<dynamic>(s => s.
-                    Index(index).
-                    Type(type).
-                    From(skip).
-                    Size(take).
-                    Query(q => q.QueryString(qs => qs.Query(searchText))));
-
-                return new DataResult { Total = items.Total, Items = items.Hits.Select(item => item.Source).ToArray() };
+                return new DataResult
+                {
+                    Total = 0,
+                    Items = Enumerable.Empty<JObject>()
+                };
             }
         }
 
