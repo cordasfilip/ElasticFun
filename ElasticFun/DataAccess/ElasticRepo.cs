@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using ElasticFun.DataAccess.Mappings;
 using ElasticFun.Models;
 using Elasticsearch.Net;
 using HtmlAgilityPack;
@@ -113,7 +114,7 @@ namespace ElasticFun.DataAccess
                         Symbol = csv.GetField<string>("Symbol"),
                         Name = csv.GetField<string>("Name"),
                         Industry = csv.GetField<string>("Industry"),
-                        IPOyear = iPOyear,
+                        IPOyear = new DateTime(iPOyear,1,1),
                         LastSale = lastSale,
                         MarketCap = marketCap,
                         Sector = csv.GetField<string>("Sector"),
@@ -126,7 +127,7 @@ namespace ElasticFun.DataAccess
         public IEnumerable<Company> LoadFullCompany(string location)
         {
             var csv = new CsvReader(new StreamReader(File.OpenRead(location)));
-
+            csv.Configuration.RegisterClassMap<CompanyCsvMap>();
             while (csv.Read())
             {
                 yield return csv.GetRecord<Company>();

@@ -143,7 +143,7 @@ namespace ElasticFun.ViewModels
 
         public DelegateCommand<Index> Search { get; set; }
 
-        public DelegateCommand MonitorQuery { get;}
+        public DelegateCommand MonitorQuery { get; set; }
 
         public MainWindowViewModel()
         {

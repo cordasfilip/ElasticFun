@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="DataAccess\ElasticRepo.cs" />
+    <Compile Include="DataAccess\Mappings\CompanyCsvMap.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Index.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -181,6 +182,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Content Include="Data\companylist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\companyFulllist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

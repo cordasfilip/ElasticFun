@@ -17,7 +17,7 @@ namespace ElasticFun.Models
 
         public double? MarketCap { get; set; }
 
-        public int IPOyear { get; set; }
+        public DateTime IPOyear { get; set; }
 
         public string Sector { get; set; }
 
