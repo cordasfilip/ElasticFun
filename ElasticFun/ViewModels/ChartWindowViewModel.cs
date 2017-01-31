@@ -31,10 +31,10 @@ namespace ElasticFun.ViewModels
                 if (series.Value.Items.FirstOrDefault() is KeyedBucket<object>)
                 {
                     var plot2 = new PlotModel { Title = series.Key };
-                    plot2.Axes.Add(new CategoryAxis { Position = AxisPosition.Left, ItemsSource = series.Value.Items, LabelField = "Key", IsZoomEnabled = false, IsPanEnabled = false });
-                    plot2.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, MinimumPadding = 0, AbsoluteMinimum = 0, IsZoomEnabled = false, IsPanEnabled = false });
+                    plot2.Axes.Add(new CategoryAxis { Position = AxisPosition.Bottom, ItemsSource = series.Value.Items, LabelField = "Key", IsZoomEnabled = false, IsPanEnabled = false });
+                    plot2.Axes.Add(new LinearAxis { Position = AxisPosition.Left, MinimumPadding = 0, AbsoluteMinimum = 0, IsZoomEnabled = false, IsPanEnabled = false });
                     var data = series.Value.Items.Cast<KeyedBucket<object>>().Select(kb => new { Value = (kb.Aggregations.FirstOrDefault().Value as Nest.ValueAggregate).Value }).ToArray();
-                    var bar2 = new BarSeries
+                    var bar2 = new ColumnSeries
                     {
                         Title = series.Key,
                         ItemsSource = data,

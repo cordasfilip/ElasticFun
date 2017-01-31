@@ -179,7 +179,7 @@ namespace ElasticFun.ViewModels
         private void OnShowChart()
         {
             var window = new ChartWindow(ChartData);
-            window.ShowDialog();
+            window.Show();
         }
 
         private async Task OnSearch(Index index = null)

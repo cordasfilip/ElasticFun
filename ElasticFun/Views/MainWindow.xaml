@@ -49,15 +49,15 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel  Background="#FFF4F4F4">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseUp">
-                        <i:InvokeCommandAction Command="{Binding Deselect}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                <TextBlock FontSize="20">Index</TextBlock>
+                <TextBlock FontSize="20">
+                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseUp">
+                            <i:InvokeCommandAction Command="{Binding Deselect}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    Index
+                </TextBlock>
                 <TreeView x:Name="treeView" ItemsSource="{Binding IndexList}" >
-
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChanged}" 
@@ -83,7 +83,14 @@
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
-                <TextBlock FontSize="20">Query</TextBlock>
+                <TextBlock FontSize="20">
+                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseUp">
+                            <i:InvokeCommandAction Command="{Binding Deselect}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    Query
+                </TextBlock>
                 <ListBox ItemsSource="{Binding Queries}" SelectedItem="{Binding Query}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
