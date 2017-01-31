@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ElasticFun.DataAccess.ElasticRepo;
+using ElasticFun.DataAccess;
 
 namespace ElasticFun.ViewModels
 {
@@ -16,10 +16,10 @@ namespace ElasticFun.ViewModels
     {
         public List<ChartModel> Charts { get; private set; }
 
-        public ChartWindowViewModel(IEnumerable<ChartData> points)
+        public ChartWindowViewModel(IEnumerable<ElasticRepo.ChartData> points)
         {
             Charts = new List<ChartModel>();
-            points = points ?? Enumerable.Empty<ChartData>();
+            points = points ?? Enumerable.Empty<ElasticRepo.ChartData>();
 
 
             foreach (var series in points)
