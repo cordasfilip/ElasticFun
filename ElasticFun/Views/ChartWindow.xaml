@@ -1,0 +1,22 @@
+﻿<Controls:MetroWindow x:Class="ElasticFun.Views.ChartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ElasticFun.Views"
+        xmlns:oxy="http://oxyplot.org/wpf"    
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="ChartWindow" Height="600" Width="600">
+    <ScrollViewer>
+        <ItemsControl ItemsSource="{Binding Charts}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <oxy:PlotView Model="{Binding Model}" Width="580" Height="300"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+</Controls:MetroWindow>

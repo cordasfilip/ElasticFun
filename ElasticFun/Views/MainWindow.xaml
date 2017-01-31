@@ -49,6 +49,12 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel  Background="#FFF4F4F4">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseUp">
+                        <i:InvokeCommandAction Command="{Binding Deselect}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
                 <TextBlock FontSize="20">Index</TextBlock>
                 <TreeView x:Name="treeView" ItemsSource="{Binding IndexList}" >
 
@@ -93,7 +99,7 @@
                     Data="M2.82196,33.142 C3.65092,33.142 4.39089,33.4994 4.9109,34.0555 C7.78681,35.41 14.1936,37.9488 21.6585,37.8822 C21.7825,37.8822 21.9065,37.8795 22.0335,37.8756 L22.7575,37.8795 C22.8834,37.8822 23.0095,37.8822 23.1334,37.8851 C30.5933,37.9515 37.0012,35.41 39.8821,34.058 C40.3971,33.5021 41.135,33.142 41.97,33.142 C43.531,33.142 44.793,34.3699 44.793,35.8833 C44.793,37.1528 43.902,38.2103 42.694,38.5234 C40.4981,39.793 32.7502,43.8586 23.4855,43.8065 L21.3055,43.8039 C12.0428,43.8557 4.29189,39.793 2.09596,38.5209 C0.88798,38.2103 0,37.1528 0,35.8808 C0,34.3699 1.25998,33.142 2.82196,33.142 z M2.82198,20.683 C3.65094,20.683 4.39091,21.0418 4.91092,21.599 C7.78683,22.951 14.1937,25.491 21.6585,25.4217 C21.7825,25.4217 21.9065,25.419 22.0335,25.419 L22.7575,25.419 C22.8835,25.4217 23.0095,25.4217 23.1335,25.4217 C30.5933,25.491 37.0012,22.951 39.8821,21.599 C40.3971,21.0418 41.1351,20.6856 41.9701,20.6856 C43.531,20.6856 44.793,21.9135 44.793,23.4242 C44.793,24.6963 43.902,25.7523 42.694,26.0642 C40.4981,27.3363 32.7502,31.3988 23.4855,31.3455 L21.3055,31.3428 C12.0428,31.3963 4.29191,27.3338 2.09598,26.0616 C0.888002,25.751 2.2E-05,24.6963 2.2E-05,23.4242 C2.2E-05,21.9096 1.26,20.683 2.82198,20.683 z M22.688,0 C34.64,0 44.331,4.25456 44.331,9.5027 C44.331,14.7535 34.64,19.008 22.688,19.008 C10.736,19.008 1.04801,14.7535 1.04801,9.5027 C1.04801,4.25456 10.736,0 22.688,0 z" Fill="#FF666666" Stretch="Uniform" UseLayoutRounding="False"/>
                 </Button>
                 <Button Command="{Binding Init}" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{DynamicResource SquareButtonStyle}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FF666666">
-                    <Path Width="20" Height="20" Stretch="Uniform" UseLayoutRounding="False" Fill="Black" Data="F1 M 20.8105,7.09424L 24.2607,33.1177L 15.9209,29.6714C 14.2021,33.7583 13.251,38.2466 13.251,42.9595C 13.251,61.9429 28.6406,77.3267 47.6201,77.3267C 53.2109,77.3267 58.4854,75.9829 63.1504,73.6147L 69.4775,79.9419C 63.0732,83.7349 55.6025,85.9204 47.6201,85.9204C 23.8936,85.9204 4.6582,66.688 4.6582,42.9595C 4.6582,37.0845 5.84277,31.4888 7.98047,26.3901L 0,23.0913L 20.8105,7.09424 Z M 47.6191,0.000488281C 71.3457,0.000488281 90.5791,19.2368 90.5791,42.9604C 90.5791,47.8813 89.748,52.6089 88.2227,57.0112L 96.0176,60.3472L 75.0029,76.0845L 71.8828,50.0181L 80.2969,53.6187C 81.3936,50.2642 81.9883,46.6821 81.9883,42.9604C 81.9883,23.9771 66.5986,8.59326 47.6191,8.59326C 43.3438,8.59326 39.2559,9.38037 35.4814,10.8052L 28.9404,4.26318C 34.5898,1.53076 40.9238,0.000488281 47.6191,0.000488281 Z "/>
+                    <Path Width="20" Height="20" Stretch="Uniform" UseLayoutRounding="False"  Fill="#FF666666" Data="F1 M 20.8105,7.09424L 24.2607,33.1177L 15.9209,29.6714C 14.2021,33.7583 13.251,38.2466 13.251,42.9595C 13.251,61.9429 28.6406,77.3267 47.6201,77.3267C 53.2109,77.3267 58.4854,75.9829 63.1504,73.6147L 69.4775,79.9419C 63.0732,83.7349 55.6025,85.9204 47.6201,85.9204C 23.8936,85.9204 4.6582,66.688 4.6582,42.9595C 4.6582,37.0845 5.84277,31.4888 7.98047,26.3901L 0,23.0913L 20.8105,7.09424 Z M 47.6191,0.000488281C 71.3457,0.000488281 90.5791,19.2368 90.5791,42.9604C 90.5791,47.8813 89.748,52.6089 88.2227,57.0112L 96.0176,60.3472L 75.0029,76.0845L 71.8828,50.0181L 80.2969,53.6187C 81.3936,50.2642 81.9883,46.6821 81.9883,42.9604C 81.9883,23.9771 66.5986,8.59326 47.6191,8.59326C 43.3438,8.59326 39.2559,9.38037 35.4814,10.8052L 28.9404,4.26318C 34.5898,1.53076 40.9238,0.000488281 47.6191,0.000488281 Z "/>
                 </Button>
             </StackPanel>
         </Grid>
@@ -105,7 +111,14 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBox 
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Command="{Binding ShowChart}" Grid.Column="0"  Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{DynamicResource SquareButtonStyle}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FF666666">
+                    <Path Width="20" Height="20" Stretch="Uniform" Fill="#FF666666" Data="F1 M 122.667,61.3334L 61.3333,61.3334L 61.3333,122.667C 27.4603,122.667 0,95.2071 0,61.3334C 0,27.4596 27.4603,1.52588e-005 61.3333,1.52588e-005C 95.2057,1.52588e-005 122.667,27.4596 122.667,61.3334 Z M 72,133.333L 72,72L 133.333,72C 133.333,105.874 105.872,133.333 72,133.333 Z "/> </Button>
+                <TextBox Grid.Column="1"
                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="4"
                           Controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonCmd, Mode=OneWay}" 
@@ -113,24 +126,25 @@
                           Controls:TextBoxHelper.UseFloatingWatermark="True"
                           Controls:TextBoxHelper.Watermark="Search...">
 
-                <TextBox.InputBindings>
+                    <TextBox.InputBindings>
 
-                    <KeyBinding Key="Return" 
+                        <KeyBinding Key="Return" 
                                      Command="{Binding Search, Mode=OneWay}" 
                                      CommandParameter="{ Binding SelectedItem, ElementName= treeView }" />
-                </TextBox.InputBindings>
-                <TextBox.Style>
-                    <Style BasedOn="{StaticResource SearchMetroTextBox}" TargetType="{x:Type TextBox}">
-                        <!--<Style.Triggers>
+                    </TextBox.InputBindings>
+                    <TextBox.Style>
+                        <Style BasedOn="{StaticResource SearchMetroTextBox}" TargetType="{x:Type TextBox}">
+                            <!--<Style.Triggers>
                             <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
                                 <Setter Property="Controls:TextBoxHelper.ButtonContent" Value="r" />
                                 <Setter Property="Controls:TextBoxHelper.ButtonContentTemplate" Value="{x:Null}" />
                             </Trigger>
                         </Style.Triggers>-->
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
-            
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </Grid>
+
             <DataGrid  Grid.Row="1" ItemsSource="{Binding Data}" SelectedItem="{Binding SelectedRow}" RowHeight="40"></DataGrid>
 
             <ScrollViewer  Grid.Row="2">

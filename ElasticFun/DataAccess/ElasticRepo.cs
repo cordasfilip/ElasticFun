@@ -6,6 +6,7 @@ using HtmlAgilityPack;
 using Microsoft.Practices.ObjectBuilder2;
 using Nest;
 using Newtonsoft.Json.Linq;
+using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -156,7 +157,8 @@ namespace ElasticFun.DataAccess
                                    Type(type).
                                    From(skip).
                                    Size(take).
-                                   Query(q => q.QueryString(qs => qs.Query(searchText))));
+                                   Query(q => q.QueryString(qs => qs.Query(searchText))).
+                                   Highlight(hl=>hl.Fields(f=>f.AllField().PreTags("<Run Foreground=\"{DynamicResource HighlightBrush}\">").PostTags("</Run>"))));
                     }
                     else
                     {
@@ -201,7 +203,11 @@ namespace ElasticFun.DataAccess
 
                             return item.Source;
                         }
-                        ).ToArray()
+                        ).ToArray(),
+                        Points = items
+                       .Aggregations
+                       .Where(a => a.Value is BucketAggregate)
+                       .Select(a => new ChartData { Key = a.Key, Value = a.Value as BucketAggregate })
                     };
                 }
             }
@@ -220,6 +226,15 @@ namespace ElasticFun.DataAccess
             public long Total { get; set; }
 
             public IEnumerable<dynamic> Items { get; set; }
+
+            public IEnumerable<ChartData> Points { get; set; }
+        }
+
+        public class ChartData
+        {
+            public string Key { get; set; }
+
+            public BucketAggregate Value { get; set; }
         }
     }
 }

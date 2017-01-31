@@ -1,5 +1,6 @@
 ﻿using ElasticFun.DataAccess;
 using ElasticFun.Models;
+using ElasticFun.Views;
 using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using static ElasticFun.DataAccess.ElasticRepo;
 
 namespace ElasticFun.ViewModels
 {
@@ -135,6 +137,8 @@ namespace ElasticFun.ViewModels
             }
         }
 
+        public IEnumerable<ChartData> ChartData { get; set; }
+
         public DelegateCommand Init { get; set; }
 
         public DelegateCommand AddData { get; set; }
@@ -144,6 +148,10 @@ namespace ElasticFun.ViewModels
         public DelegateCommand<Index> Search { get; set; }
 
         public DelegateCommand MonitorQuery { get; set; }
+
+        public DelegateCommand ShowChart { get; set; }
+
+        public DelegateCommand Deselect { get; set; }
 
         public MainWindowViewModel()
         {
@@ -158,6 +166,20 @@ namespace ElasticFun.ViewModels
             Search = DelegateCommand<Index>.FromAsyncHandler(OnSearch);
 
             SelectionChanged = DelegateCommand<Index>.FromAsyncHandler(OnSearch);
+
+            ShowChart =new DelegateCommand(OnShowChart);
+
+            Deselect = new DelegateCommand(() => 
+            {
+                Query = null;
+                SelectedItem = null;
+            });
+        }
+
+        private void OnShowChart()
+        {
+            var window = new ChartWindow(ChartData);
+            window.ShowDialog();
         }
 
         private async Task OnSearch(Index index = null)
@@ -175,7 +197,10 @@ namespace ElasticFun.ViewModels
 
             var data = await db.SearchAsync(indexName, typeName,SearchText,query);
             Total = data.Total;
+
             Data = new ObservableCollection<dynamic>(data.Items);
+
+            ChartData = data.Points;
             EndLoad();
         }
         public async Task OnAddData()
