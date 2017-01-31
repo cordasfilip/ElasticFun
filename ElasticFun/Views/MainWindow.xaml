@@ -49,15 +49,15 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel  Background="#FFF4F4F4">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseUp">
-                        <i:InvokeCommandAction Command="{Binding Deselect}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                <TextBlock FontSize="20">Index</TextBlock>
+                <TextBlock FontSize="20">
+                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseUp">
+                            <i:InvokeCommandAction Command="{Binding Deselect}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    Index
+                </TextBlock>
                 <TreeView x:Name="treeView" ItemsSource="{Binding IndexList}" >
-
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChanged}" 
@@ -83,7 +83,14 @@
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
-                <TextBlock FontSize="20">Query</TextBlock>
+                <TextBlock FontSize="20">
+                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseUp">
+                            <i:InvokeCommandAction Command="{Binding Deselect}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    Query
+                </TextBlock>
                 <ListBox ItemsSource="{Binding Queries}" SelectedItem="{Binding Query}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -115,6 +122,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Button Command="{Binding ShowChart}" Grid.Column="0"  Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{DynamicResource SquareButtonStyle}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FF666666">
                     <Path Width="20" Height="20" Stretch="Uniform" Fill="#FF666666" Data="F1 M 122.667,61.3334L 61.3333,61.3334L 61.3333,122.667C 27.4603,122.667 0,95.2071 0,61.3334C 0,27.4596 27.4603,1.52588e-005 61.3333,1.52588e-005C 95.2057,1.52588e-005 122.667,27.4596 122.667,61.3334 Z M 72,133.333L 72,72L 133.333,72C 133.333,105.874 105.872,133.333 72,133.333 Z "/> </Button>
@@ -143,6 +151,7 @@
                         </Style>
                     </TextBox.Style>
                 </TextBox>
+                <TextBlock Grid.Column="2" Text="{Binding Total}" VerticalAlignment="Center" FontSize="18" Margin="5,0"></TextBlock>
             </Grid>
 
             <DataGrid  Grid.Row="1" ItemsSource="{Binding Data}" SelectedItem="{Binding SelectedRow}" RowHeight="40"></DataGrid>

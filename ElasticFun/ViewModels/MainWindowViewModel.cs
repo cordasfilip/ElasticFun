@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using static ElasticFun.DataAccess.ElasticRepo;
+using ElasticFun.DataAccess;
 
 namespace ElasticFun.ViewModels
 {
@@ -137,7 +137,7 @@ namespace ElasticFun.ViewModels
             }
         }
 
-        public IEnumerable<ChartData> ChartData { get; set; }
+        public IEnumerable<ElasticRepo.ChartData> ChartData { get; set; }
 
         public DelegateCommand Init { get; set; }
 
@@ -179,7 +179,7 @@ namespace ElasticFun.ViewModels
         private void OnShowChart()
         {
             var window = new ChartWindow(ChartData);
-            window.ShowDialog();
+            window.Show();
         }
 
         private async Task OnSearch(Index index = null)

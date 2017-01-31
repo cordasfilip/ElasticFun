@@ -7,13 +7,13 @@
         xmlns:oxy="http://oxyplot.org/wpf"    
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="ChartWindow" Height="600" Width="600">
+        Title="Charts"  WindowState="Maximized">
     <ScrollViewer>
         <ItemsControl ItemsSource="{Binding Charts}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <oxy:PlotView Model="{Binding Model}" Width="580" Height="300"/>
+                        <oxy:PlotView Model="{Binding Model}" Height="300"/>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

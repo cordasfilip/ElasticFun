@@ -15,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static ElasticFun.DataAccess.ElasticRepo;
+using ElasticFun.DataAccess;
 
 namespace ElasticFun.Views
 {
@@ -25,7 +25,7 @@ namespace ElasticFun.Views
     public partial class ChartWindow : MetroWindow
     {
 
-        public ChartWindow(IEnumerable<ChartData> points)
+        public ChartWindow(IEnumerable<ElasticRepo.ChartData> points)
         {
             DataContext = new ChartWindowViewModel(points);
 
