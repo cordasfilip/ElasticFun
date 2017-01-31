@@ -1,0 +1,10 @@
+﻿{
+  "query": {
+    "match": {
+      "name": {
+        "query": "Microsoft Corporation",
+        "operator": "and"
+      }
+    }
+  }
+}

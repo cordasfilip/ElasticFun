@@ -1,0 +1,7 @@
+GET /movie/actor/1?pretty 
+GET /movie/actor/2?pretty 
+GET /movie/actor/3?pretty 
+GET /movie/actor/4?pretty 
+GET /movie/actor/5?pretty 
+GET /movie/actor/6?pretty 
+GET /movie/actor/7?pretty 

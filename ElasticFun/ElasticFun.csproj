@@ -203,19 +203,29 @@
     <Content Include="Data\companyFulllist.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Examples\Analyzers.json" />
+    <None Include="Examples\DataCreation.json" />
+    <None Include="Examples\GettingTheData.json" />
+    <None Include="Examples\Mappings" />
+    <None Include="Examples\Search.json" />
+    <None Include="Examples\Update.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Query\1-Match.json" />
+    <None Include="Query\2-MatchAnd.json" />
+    <None Include="Query\3-MatchPhrase.json" />
+    <None Include="Query\4-MatchPhrasePrefix.json" />
+    <None Include="Query\Israel.json" />
+    <None Include="Query\BySectorChart.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Query\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

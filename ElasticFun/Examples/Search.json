@@ -1,0 +1,15 @@
+GET /_search
+GET /movie/_search
+GET /movie/actor/_search
+GET /mov*/_search
+GET /movie/a*/_search
+GET /movie/actor/_search?size=2&from=0
+GET /movie/actor/_search?q=name:Marion
+GET /movie/actor/_search?q=name:Marion AND date:>1980-01-01
+GET /movie/actor/_search?q=cure
+GET /movie/actor/_search?q=_all:cure
+GET /movie/actor/_search?q=1986
+GET /movie/actor/_search?q=1986-01
+GET /movie/actor/_search?q=1986-01-01
+GET /movie/actor/_search?q="1986-01-01"
+GET /movie/actor/_search?q=date:1986-01-01

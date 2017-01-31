@@ -1,0 +1,10 @@
+﻿{
+  "query": {
+    "match_phrase": {
+      "text": {
+        "query": "meaning of the Private Securities",
+        "analyzer": "standard"
+      }
+    }
+  }
+}

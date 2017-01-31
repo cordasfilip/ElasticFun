@@ -1,0 +1,7 @@
+﻿{
+  "query": {
+    "match": {
+      "_all": "Microsoft Corporation"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+POST /movie/actor/1?pretty 
+{
+  "name": "Marion Cobra Cobretti",
+  "actor":"SYLVESTER STALLONE",
+  "score":6,
+  "date":"1986-01-01",
+  "line":"You’re a disease… And I’m the cure."
+}
+
+POST /movie/actor/2?pretty
+{
+  "name": "Harry Callahan",
+  "actor":"Clint Eastwood",
+  "score":4,
+  "date":"1971-01-01",
+  "line":"Do you feel lucky, punk?"
+}
+
+POST /movie/actor/3?pretty
+{
+  "name": "Major Alan Dutch Schaefer",
+  "actor":"Arnold Schwarzenegger ",
+  "score":3,
+  "date":"1987-01-01",
+  "line":"If it bleeds, we can kill it"
+}
+
+POST /movie/actor/4?pretty
+{
+  "name": "John Cutter",
+  "actor":"Wesley Snipes",
+  "score":8,
+  "date":"1992-01-01",
+  "line":"Always bet on black"
+}
+
+//POST /movie/actor/5?pretty
+{
+  "name": "Colonel James Braddock",
+  "actor":"Chuck Norris",
+  "score":12,
+  "date":"1988-01-01",
+  "line":"I don’t step on toes… I step on necks"
+}
+
+//POST /movie/actor/6?pretty
+{
+  "name": "Mason Storm",
+  "actor":"Steven Seagal",
+  "score":13,
+  "date":"1990-01-01",
+  "line":"I’m gonna take you to the bank, Senator Trent—to the blood bank"
+}
+
+//POST /movie/actor/7?pretty
+{
+  "name": "Black Dynamite",
+  "actor":"Michael Jai White",
+  "score":14,
+  "date":"2009-01-01",
+  "line":"Donuts don’t wear alligator shoes",
+  "line2":"Hitman wear alligators shoes",
+  "link":"https://www.youtube.com/watch?v=6iu8JkOWn1w",
+
+}

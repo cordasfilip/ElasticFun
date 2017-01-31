@@ -1,0 +1,34 @@
+GET _analyze
+{
+  "tokenizer" : "standard",
+  "filter" : ["snowball"],
+  "text" : "Donuts don’t wear alligator shoes",
+  "explain" : true,
+  "attributes" : ["keyword"] 
+}
+
+GET _analyze
+{
+  "tokenizer" : "standard",
+  "filter" : ["lowercase"],
+  "text" : "Donuts don’t wear alligator shoes",
+  "explain" : true,
+  "attributes" : ["keyword"] 
+}
+
+POST _analyze
+{
+  "tokenizer": "letter",
+  "text": "I’m gonna take you to the bank, Senator Trent—to the blood bank"
+}
+
+POST _analyze
+{
+  "tokenizer": "standard",
+  "filter":["lowercase",{
+                    "type" : "stemmer",
+                    "name" : "english"
+                }
+],
+  "text": "I’m gonna take you to the bank, Senator Trent—to the blood bank"
+}

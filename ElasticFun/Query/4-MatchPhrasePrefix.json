@@ -1,0 +1,14 @@
+﻿{
+  "query": {
+    "match_phrase_prefix": {
+      "name": "mic"
+    }
+  },
+  "highlight": {
+    "pre_tags": "<Run Foreground=\"{DynamicResource HighlightBrush}\">",
+    "post_tags": "</Run>",
+    "fields": {
+      "text": { "fragment_size": 250 }
+    }
+  }
+}
