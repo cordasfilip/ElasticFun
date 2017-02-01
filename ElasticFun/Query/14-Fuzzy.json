@@ -1,8 +1,6 @@
 ﻿{
   "query": {
-    "match_phrase_prefix": {
-      "name": "mic"
-    }
+    "fuzzy": { "name": "indusry" }
   },
   "highlight": {
     "pre_tags": "<Run Foreground=\"{DynamicResource HighlightBrush}\">",

@@ -1,0 +1,16 @@
+﻿{
+  "query": {
+    "more_like_this": {
+      "fields": [ "industry", "sector", "text" ],
+      "like": [
+        {
+          "_index": "company",
+          "_type": "company",
+          "_id": "AVnxLB-9Xiv4cru_852m"
+        }
+      ],
+      "min_term_freq": 1,
+      "max_query_terms": 12
+    }
+  }
+}

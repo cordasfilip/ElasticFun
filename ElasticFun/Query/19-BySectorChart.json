@@ -1,0 +1,13 @@
+{
+  "aggs": {
+    "by_sector": {
+      "terms": {
+        "field": "sector.keyword",
+        "size": 200
+      },
+      "aggs": {
+        "avg_lastSale": { "avg": { "field": "lastSale" } }
+      }
+    }
+  }
+}

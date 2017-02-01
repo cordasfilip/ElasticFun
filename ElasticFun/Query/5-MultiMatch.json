@@ -1,7 +1,8 @@
 ﻿{
   "query": {
-    "match_phrase_prefix": {
-      "name": "mic"
+    "multi_match": {
+      "query": "pioneer technology",
+      "fields": [ "name^3", "text^2", "sector" ]
     }
   },
   "highlight": {

@@ -169,6 +169,19 @@
     <Compile Include="DataAccess\Mappings\CompanyCsvMap.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Index.cs" />
+    <None Include="ElasticSearchBasics.pptx" />
+    <None Include="Query\10-RangeDate.json" />
+    <None Include="Query\11-PrefixAnalyzed.json" />
+    <None Include="Query\12-PrefixKeyword.json" />
+    <None Include="Query\13-Wildcard.json" />
+    <None Include="Query\14-Fuzzy.json" />
+    <None Include="Query\15-Bool.json" />
+    <None Include="Query\16-MoreLikeThisText.json" />
+    <None Include="Query\17-MSFT.json" />
+    <None Include="Query\18-MoreLikeThisDocument.json" />
+    <None Include="Query\20-Histogram.json" />
+    <None Include="Query\5-MultiMatch.json" />
+    <None Include="Query\7-TermBad.json" />
     <Compile Include="ViewModels\ChartWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\ChartWindow.xaml.cs">
@@ -219,8 +232,10 @@
     <None Include="Query\2-MatchAnd.json" />
     <None Include="Query\3-MatchPhrase.json" />
     <None Include="Query\4-MatchPhrasePrefix.json" />
-    <None Include="Query\Israel.json" />
-    <None Include="Query\BySectorChart.json" />
+    <None Include="Query\6-CommonTerms.json" />
+    <None Include="Query\8-TermGood.json" />
+    <None Include="Query\9-RangeNumber.json" />
+    <None Include="Query\19-BySectorChart.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

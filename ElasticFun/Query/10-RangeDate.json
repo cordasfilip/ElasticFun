@@ -1,0 +1,18 @@
+﻿{
+  "query": {
+    "range": {
+      "iPOyear": {
+        "gt": "02/01/2000",
+        "lte": "2010-1y",
+        "format": "dd/MM/yyyy||yyyy"
+      }
+    }
+  },
+  "sort": [
+    {
+      "iPOyear": {
+        "order": "asc"
+      }
+    }
+  ]
+}

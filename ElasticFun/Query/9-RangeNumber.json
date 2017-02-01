@@ -1,0 +1,17 @@
+﻿{
+  "query": {
+    "range": {
+      "lastSale": {
+        "gte": 50,
+        "lte": 100
+      }
+    }
+  },
+  "sort": [
+    {
+      "lastSale": {
+        "order": "desc"
+      }
+    }
+  ]
+}

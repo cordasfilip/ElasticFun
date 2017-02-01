@@ -1,0 +1,34 @@
+﻿{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "text": "acquire"
+                }
+              },
+              {
+                "prefix": {
+                  "industry": {
+                    "value": "t"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "terms": {
+            "sector.keyword": [
+              "Finance",
+              "Technology"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

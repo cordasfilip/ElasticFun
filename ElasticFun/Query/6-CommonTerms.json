@@ -1,14 +1,17 @@
 ﻿{
   "query": {
-    "match_phrase_prefix": {
-      "name": "mic"
+    "common": {
+      "text": {
+        "query": "is the best",
+        "cutoff_frequency": 0.001
+      }
     }
   },
   "highlight": {
     "pre_tags": "<Run Foreground=\"{DynamicResource HighlightBrush}\">",
     "post_tags": "</Run>",
     "fields": {
-      "name": { "fragment_size": 250 }
+      "text": { "fragment_size": 250 }
     }
   }
 }

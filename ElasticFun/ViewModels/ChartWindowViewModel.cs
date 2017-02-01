@@ -25,7 +25,8 @@ namespace ElasticFun.ViewModels
             foreach (var series in points)
             {
                 var plot = new PlotModel { Title = series.Key };
-                plot.Axes.Add(new CategoryAxis { Position = AxisPosition.Left, ItemsSource = series.Value.Items, LabelField = "Key" , IsZoomEnabled = false, IsPanEnabled = false});
+                var key = "KeyAsString";
+                plot.Axes.Add(new CategoryAxis { Position = AxisPosition.Left, ItemsSource = series.Value.Items, LabelField = key, IsZoomEnabled = false, IsPanEnabled = false});
                 plot.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, MinimumPadding = 0, AbsoluteMinimum = 0, IsZoomEnabled = false, IsPanEnabled = false });
 
                 if (series.Value.Items.FirstOrDefault() is KeyedBucket<object>)

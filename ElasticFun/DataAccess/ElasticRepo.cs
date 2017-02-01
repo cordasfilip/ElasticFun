@@ -23,7 +23,7 @@ namespace ElasticFun.DataAccess
 
         public ElasticRepo()
         {
-            var uri = "http://localhost.fiddler:9200";
+            var uri = "http://localhost:9200";
             client = new ElasticClient(new Uri(uri));
         }
 

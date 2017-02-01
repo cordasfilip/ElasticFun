@@ -1,0 +1,18 @@
+﻿{
+  "query": {
+    "range": {
+      "iPOyear": {
+        "gte": "1980",
+        "lte": "1990"
+      }
+    }
+  },
+  "aggs": {
+    "ipo_count": {
+      "date_histogram": {
+        "field": "iPOyear",
+        "interval": "year"
+      }
+    }
+  }
+}
