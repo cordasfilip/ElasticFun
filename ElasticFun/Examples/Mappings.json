@@ -1,3 +1,52 @@
 GET /movie/actor/_mapping
 
 
+PUT movie
+{
+  "mappings": {
+    "_default_": { 
+      "_all": {
+        "enabled": false
+      }
+    },
+    "actor": { 
+      "_all": {
+        "enabled": true
+      }
+    }
+  }
+}
+
+PUT movies
+{
+    "settings": {
+    "analysis": {
+        "analyzer": {
+            "my-letters":{
+          "type":      "custom",
+          "tokenizer": "letter",
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+            }
+        }
+    }
+    }, 
+  "mappings": {
+    "actor": { 
+      "properties": {
+          "text":{
+              "analyzer": "standard", 
+              "type": "string", 
+              "fields": {
+                  "letter":{
+                       "type": "string", 
+                      "analyzer":"my-letters"
+                  }
+              }
+          }
+      }
+    }
+  }
+}
