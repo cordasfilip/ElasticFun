@@ -1,5 +1,13 @@
 GET _analyze
 {
+    "tokenizer": "standard",
+    "text": "Donuts don’t wear alligator shoes",
+    "explain": true,
+    "attributes": [ "keyword" ]
+}
+
+GET _analyze
+{
   "tokenizer" : "standard",
   "filter" : ["snowball"],
   "text" : "Donuts don’t wear alligator shoes",
@@ -24,11 +32,20 @@ POST _analyze
 
 POST _analyze
 {
-  "tokenizer": "standard",
-  "filter":["lowercase",{
-                    "type" : "stemmer",
-                    "name" : "english"
-                }
-],
-  "text": "I’m gonna take you to the bank, Senator Trent—to the blood bank"
+    "tokenizer": "standard",
+    "filter": [
+        "lowercase",
+        {
+            "type": "stemmer",
+            "name": "english"
+        }
+    ],
+    "text": "I’m gonna take you to the bank, Senator Trent—to the blood bank"
+}
+
+POST _analyze
+{
+  "tokenizer":      "keyword", 
+  "char_filter":  [ "html_strip" ],
+  "text":"<span>Do you feel lucky</span>, <b>punk?</b>"
 }

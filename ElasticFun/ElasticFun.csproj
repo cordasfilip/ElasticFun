@@ -219,7 +219,7 @@
     <None Include="Examples\Analyzers.json" />
     <None Include="Examples\DataCreation.json" />
     <None Include="Examples\GettingTheData.json" />
-    <None Include="Examples\Mappings" />
+    <None Include="Examples\Mappings.json" />
     <None Include="Examples\Search.json" />
     <None Include="Examples\Update.json" />
     <None Include="packages.config" />

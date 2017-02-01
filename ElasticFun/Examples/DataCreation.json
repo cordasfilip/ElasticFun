@@ -34,7 +34,7 @@ POST /movie/actor/4?pretty
   "line":"Always bet on black"
 }
 
-//POST /movie/actor/5?pretty
+POST /movie/actor/5?pretty
 {
   "name": "Colonel James Braddock",
   "actor":"Chuck Norris",
@@ -43,7 +43,7 @@ POST /movie/actor/4?pretty
   "line":"I don’t step on toes… I step on necks"
 }
 
-//POST /movie/actor/6?pretty
+POST /movie/actor/6?pretty
 {
   "name": "Mason Storm",
   "actor":"Steven Seagal",
@@ -52,7 +52,7 @@ POST /movie/actor/4?pretty
   "line":"I’m gonna take you to the bank, Senator Trent—to the blood bank"
 }
 
-//POST /movie/actor/7?pretty
+POST /movie/actor/7?pretty
 {
   "name": "Black Dynamite",
   "actor":"Michael Jai White",
